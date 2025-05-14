@@ -36,7 +36,7 @@ class Runner:
         Path(self.model_save_path).mkdir(parents=True, exist_ok=True)
         Path(f'logs/{self.args.dataset}').mkdir(parents=True, exist_ok=True)
 
-        Logger.init(self.log_name)
+        Logger.init(self.log_name if self.args.log else None)
 
         # Get dataloader
         Logger.info('Get dataloader...')
@@ -185,6 +185,7 @@ class Runner:
             if no_improve_count >= self.args.early_stop:
                 break
 
+        Path(self.model_path).parent.mkdir(parents=True, exist_ok=True)
         torch.save(best_model_weights, self.model_name)
 
         Logger.info(f'Best epoch: {best_epoch}')

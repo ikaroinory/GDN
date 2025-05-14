@@ -33,6 +33,8 @@ class Arguments:
 
         self.early_stop: int = args.early_stop
 
+        self.log: bool = not args.nolog
+
     @staticmethod
     def parse_args():
         parser = argparse.ArgumentParser()
@@ -62,5 +64,7 @@ class Arguments:
         parser.add_argument('--lr', type=float, default=0.001)
 
         parser.add_argument('--early_stop', type=int, default=20)
+
+        parser.add_argument('--nolog', action='store_true')
 
         return parser.parse_args()

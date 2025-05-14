@@ -4,13 +4,13 @@ from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_sco
 from torch import Tensor
 
 
-def get_total_error_score(result: tuple[Tensor, Tensor, Tensor]):
+def get_total_error_score(result: tuple[Tensor, Tensor, Tensor], epsilon: float = 1e-2) -> Tensor:
     predict_result, actual_result, _ = result
 
     delta = torch.abs(predict_result - actual_result)
     median, _ = torch.median(delta, dim=0)
     iqr = torch.quantile(delta, 0.75, dim=0) - torch.quantile(delta, 0.25, dim=0)
-    score = (delta - median) / (torch.abs(iqr) + 1e-2)  # [*, num_nodes]
+    score = (delta - median) / (torch.abs(iqr) + epsilon)  # [*, num_nodes]
 
     return score.max(dim=-1)[0]
 
