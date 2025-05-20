@@ -185,7 +185,7 @@ class Runner:
             if no_improve_count >= self.args.early_stop:
                 break
 
-        Path(self.model_path).parent.mkdir(parents=True, exist_ok=True)
+        Path(self.model_name).parent.mkdir(parents=True, exist_ok=True)
         torch.save(best_model_weights, self.model_name)
 
         Logger.info(f'Best epoch: {best_epoch}')
